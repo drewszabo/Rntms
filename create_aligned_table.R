@@ -49,8 +49,8 @@ sample_names_df <- as.data.frame(sampleNames(xdata_filled))
 #------------------
 # Add sample names manually from patRoon data (Drew)
 #------------------
-sample_names_df <- as.data.frame(fGroupsXCMS@analysisInfo$analysis)
-sample_names_df$`fGroupsXCMS@analysisInfo$analysis` <- paste0(sample_names_df$`fGroupsXCMS@analysisInfo$analysis`, ".mzML")
+sample_names_df <- as.data.frame(fGroups@analysisInfo$analysis)
+sample_names_df$`fGroups@analysisInfo$analysis` <- paste0(sample_names_df$`fGroups@analysisInfo$analysis`, ".mzML")
 
 # Rename the unique column "sample_name"
 colnames(sample_names_df) <- c("sample_name")
@@ -81,7 +81,7 @@ column_index <- as.numeric(which(colnames(featuresDef_df)=="peakidx"))
 features_df <- as.list(featuresDef_df$peakidx)
 
 for(x in 1:length(features_df)){
-  length(features_df[[x]]) <- length(fGroupsXCMS@groups[[x]])
+  length(features_df[[x]]) <- length(fGroups@groups[[x]])
 }
 
 features_df = data.frame(features_df)
@@ -96,7 +96,7 @@ features_df = rename(features_df, "peak_id"=all_of(peak_colummn_name))
 # Add feature names from patRoon to features_df (Drew)
 #------------------
 
-feature_names <- colnames(fGroupsXCMS@groups)
+feature_names <- colnames(fGroups@groups)
 
 features_df <- cbind(feature_id = feature_names, features_df)
 
