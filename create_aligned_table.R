@@ -90,7 +90,7 @@ features_df = data.frame(t(features_df))
 
 # Rename the column
 peak_colummn_name <- colnames(features_df)
-features_df = rename(features_df, "peak_id"=all_of(peak_colummn_name))
+features_df = dplyr::rename(features_df, "peak_id"=all_of(peak_colummn_name))
 
 #------------------
 # Add feature names from patRoon to features_df (Drew)
