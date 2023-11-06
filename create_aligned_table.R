@@ -125,6 +125,6 @@ feature_dataframe = left_join(feature_dataframe, features_df, by="peak_id")
 # Note: Set row.names to FALSE as NeatMS does not need them
 write.csv(feature_dataframe, csv_path, row.names = FALSE)
 
-return(feature_dataframe)
+print("Done!")
 
 }
