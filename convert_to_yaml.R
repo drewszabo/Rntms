@@ -10,27 +10,27 @@ neatms_export <- neatms_export %>%
                 into = area,
                 rt = retention.time,
                 analysis = sample) %>%
-  mutate(rt = rt*60)
+  dplyr::mutate(rt = rt*60)
 
 neatms_export <- neatms_export %>%
-  left_join(anaInfo) %>%
-  select(-path, -blank)
+  dplyr::left_join(anaInfo) %>%
+  dplyr::select(-path, -blank)
 
 neatms_export$feature_id <- 
   feature_dataframe$feature_id[match(round(neatms_export$into,2), round(feature_dataframe$into,2))]
 
 # Categorize features by quality
 neatms_export <- neatms_export %>%
-  group_by(feature.ID, group) %>%
-  summarise(quality = ifelse("High_quality" %in% label, TRUE, FALSE),
+  dplyr::group_by(feature.ID, group) %>%
+  dplyr::summarise(quality = ifelse("High_quality" %in% label, TRUE, FALSE),
             feature = feature_id[1])
 
 # Filter features with <1 "high-quality"
 removeFully <- neatms_export %>%
-  group_by(feature) %>%
+  dplyr::group_by(feature) %>%
   dplyr::filter(sum(quality)/length(quality) == 0) %>%
-  distinct(feature) %>%
-  select(feature) %>%
+  dplyr::distinct(feature) %>%
+  dplyr::select(feature) %>%
   dplyr::rename(removeFully = feature)
 
 
