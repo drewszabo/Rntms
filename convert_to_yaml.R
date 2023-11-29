@@ -28,7 +28,7 @@ neatms_export <- neatms_export %>%
 # Filter features with <1 "high-quality"
 removeFully <- neatms_export %>%
   group_by(feature) %>%
-  filter(sum(quality)/length(quality) == 0) %>%
+  dplyr::filter(sum(quality)/length(quality) == 0) %>%
   distinct(feature) %>%
   select(feature) %>%
   dplyr::rename(removeFully = feature)
