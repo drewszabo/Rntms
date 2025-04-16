@@ -30,7 +30,7 @@ feature_dataframe <- as.data.frame(chromPeaks(dropAdjustedRtime(xdata_filled)))
 df_filled_peaks <- df_chrom_peaks_fill[!row.names(df_chrom_peaks_fill) %in% c(rownames(feature_dataframe)),]
 
 # Add them to the raw retention time dataframe (filled peaks do not have raw retention times so we use the adjusted ones)
-feature_dataframe <- bind_rows(feature_dataframe, df_filled_peaks)
+feature_dataframe <- dplyr::bind_rows(feature_dataframe, df_filled_peaks)
 
 # Rename the retention time columns of the adjusted rt dataframe
 df_chrom_peaks_fill <- df_chrom_peaks_fill %>%
@@ -38,13 +38,13 @@ df_chrom_peaks_fill <- df_chrom_peaks_fill %>%
 
 # Add the adjusted rt columns to the dataframe containing raw rt
 # To have a dataframe containing both raw and adjusted rt information
-feature_dataframe <- left_join(rownames_to_column(feature_dataframe), rownames_to_column(df_chrom_peaks_fill[,c("rt_adjusted","rtmin_adjusted","rtmax_adjusted")]), by="rowname")
+feature_dataframe <- dplyr::left_join(rownames_to_column(feature_dataframe), rownames_to_column(df_chrom_peaks_fill[,c("rt_adjusted","rtmin_adjusted","rtmax_adjusted")]), by="rowname")
 
 # Remove the rownames as we won't need them
 feature_dataframe$rowname <- NULL
 
 # Retrieve the sample names and store them as a dataframe
-sample_names_df <- as.data.frame(xcms::sampnames(xdata_filled))
+sample_names_df <- as.data.frame(MSnbase::sampleNames(xdata_filled))
 
 #------------------
 # Add sample names manually from patRoon data (Drew)
@@ -56,11 +56,11 @@ sample_names_df$`fGroups@analysisInfo$analysis` <- paste0(sample_names_df$`fGrou
 colnames(sample_names_df) <- c("sample_name")
 
 # Generate the correct sample ids for matching purposes
-# XCMS sampnames() function returns sample names ordered by their ids
+# MSnbase sampleNames() function returns sample names ordered by their ids
 sample_names_df$sample <- seq.int(nrow(sample_names_df))
 
 # Attach the sample names to the main dataframe by matching ids (sample column)
-feature_dataframe <- left_join(feature_dataframe,sample_names_df, by="sample")
+feature_dataframe <- dplyr::left_join(feature_dataframe,sample_names_df, by="sample")
 
 ### Feature information addition ###
 
