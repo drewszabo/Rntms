@@ -44,7 +44,7 @@ feature_dataframe <- left_join(rownames_to_column(feature_dataframe), rownames_t
 feature_dataframe$rowname <- NULL
 
 # Retrieve the sample names and store them as a dataframe
-sample_names_df <- as.data.frame(sampleNames(xdata_filled))
+sample_names_df <- as.data.frame(xcms::sampnames(xdata_filled))
 
 #------------------
 # Add sample names manually from patRoon data (Drew)
@@ -56,7 +56,7 @@ sample_names_df$`fGroups@analysisInfo$analysis` <- paste0(sample_names_df$`fGrou
 colnames(sample_names_df) <- c("sample_name")
 
 # Generate the correct sample ids for matching purposes
-# XCMS sampleNames() function returns sample names ordered by their ids
+# XCMS sampnames() function returns sample names ordered by their ids
 sample_names_df$sample <- seq.int(nrow(sample_names_df))
 
 # Attach the sample names to the main dataframe by matching ids (sample column)
